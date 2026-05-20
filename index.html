@@ -179,6 +179,12 @@
       background: #fff;
       border-radius: 10px;
     }
+    .block-logo.logo-grande {
+      transform: scale(1.0);
+    }
+    .block:hover .block-logo.logo-grande {
+      transform: scale(1.2);
+    }
     .block:hover .block-logo { transform: scale(1.15); }
     @media (hover: none) {
       .block-logo { transform: scale(1); }
@@ -593,16 +599,18 @@ const CONFIG = {
       url:  ""
     },
     {
-      logo:  "logos/2.svg",
-      bgFix: true,
-      nome:  "Banco Cacimba",
+      logo:      "logos/2.svg",
+      bgFix:     true,
+      logoGrande: true,
+      nome:      "Banco Cacimba",
       desc:  "Serviços e informações",
       cor:   "#c9a074",
       url:   ""
     },
     {
-      logo: "logos/5.svg",
-      nome: "Unidiversidade da Quebrada",
+      logo:       "logos/5.svg",
+      logoGrande: true,
+      nome:       "Unidiversidade da Quebrada",
       desc: "Educação e formação",
       cor:  "#ff7300",
       url:  ""
@@ -652,7 +660,7 @@ CONFIG.blocos.forEach(b => {
   el.innerHTML = `
     <div class="block-icon">
       ${b.logo
-        ? `<img src="${b.logo}" alt="${b.nome}" class="block-logo${b.bgFix ? ' logo-bg-fix' : ''}">`
+        ? `<img src="${b.logo}" alt="${b.nome}" class="block-logo${b.bgFix ? ' logo-bg-fix' : ''}${b.logoGrande ? ' logo-grande' : ''}">`
         : b.icone}
     </div>
     <div class="block-info">
