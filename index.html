@@ -115,9 +115,9 @@
     .block {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 14px 18px;
-      border-radius: 14px;
+      gap: 18px;
+      padding: 18px 20px;
+      border-radius: 16px;
       background: var(--surface);
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
@@ -156,8 +156,8 @@
     }
 
     .block-icon {
-      width: 54px; height: 54px;
-      border-radius: 13px;
+      width: 62px; height: 62px;
+      border-radius: 15px;
       background: var(--surface2);
       border: 1px solid var(--border);
       display: flex; align-items: center; justify-content: center;
@@ -168,8 +168,8 @@
       overflow: hidden;
     }
     .block-logo {
-      width: 38px;
-      height: 38px;
+      width: 44px;
+      height: 44px;
       object-fit: contain;
       transform: scale(0.8);
       transition: transform .35s cubic-bezier(.34,1.56,.64,1);
@@ -189,8 +189,8 @@
       flex: 1;
       position: relative; z-index: 1;
     }
-    .block-name { font-size: 14px; font-weight: 700; letter-spacing: -.2px; }
-    .block-desc { font-size: 12px; color: var(--text2); margin-top: 2px; }
+    .block-name { font-size: 15px; font-weight: 700; letter-spacing: -.2px; }
+    .block-desc { font-size: 13px; color: var(--text2); margin-top: 3px; }
 
     .block-arrow {
       color: var(--muted);
@@ -201,29 +201,76 @@
     }
     .block:hover .block-arrow { transform: translateX(3px); color: var(--inst-color, var(--text)); }
 
-    /* ── QR CODE + COMPARTILHAR ── */
+    /* ── QR CODE COLAPSÁVEL ── */
     .qr-card {
       width: 100%;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
       box-shadow: var(--shadow);
-      padding: 14px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
       margin-bottom: 14px;
       animation: up .4s .14s ease both;
       transition: background .3s, border-color .3s;
+      overflow: hidden;
     }
 
-    .qr-label {
-      font-size: 10px;
+    /* Linha clicável (sempre visível) */
+    .qr-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--text);
+      touch-action: manipulation;
+    }
+
+    .qr-toggle-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .qr-toggle-icon {
+      font-size: 18px;
+    }
+
+    .qr-toggle-label {
+      font-size: 13px;
       font-weight: 700;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
+      letter-spacing: -.1px;
+    }
+
+    .qr-toggle-sub {
+      font-size: 11px;
       color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .qr-arrow {
+      font-size: 18px;
+      color: var(--muted);
+      transition: transform .3s ease;
+    }
+    .qr-card.open .qr-arrow { transform: rotate(90deg); }
+
+    /* Conteúdo expansível */
+    .qr-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease;
+    }
+    .qr-card.open .qr-body { max-height: 400px; }
+
+    .qr-body-inner {
+      padding: 0 18px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
     }
 
     #qrcode {
@@ -234,19 +281,18 @@
     }
     #qrcode img, #qrcode canvas { display: block; border-radius: 4px; }
 
-    /* Botão compartilhar dentro do card */
+    /* Botão compartilhar */
     .qr-share-btn {
       width: 100%;
-      padding: 13px;
+      padding: 12px;
       border-radius: 12px;
       background: var(--surface2);
       border: 1px solid var(--border);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text);
       cursor: pointer;
       transition: all .2s;
-      letter-spacing: -.1px;
       touch-action: manipulation;
       display: flex;
       align-items: center;
@@ -475,11 +521,24 @@
   <div class="section-label">Acesse</div>
   <div class="blocks" id="blocksContainer"></div>
 
-  <!-- QR CODE + COMPARTILHAR -->
-  <div class="qr-card">
-    <div class="qr-label">Código desta página</div>
-    <div id="qrcode"></div>
-    <button class="qr-share-btn" id="shareFab">📤 Compartilhar</button>
+  <!-- QR CODE COLAPSÁVEL -->
+  <div class="qr-card" id="qrCard">
+    <button class="qr-toggle" id="qrToggle">
+      <div class="qr-toggle-left">
+        <span class="qr-toggle-icon">📲</span>
+        <div>
+          <div class="qr-toggle-label">Código QR</div>
+          <div class="qr-toggle-sub">Toque para ver e compartilhar</div>
+        </div>
+      </div>
+      <span class="qr-arrow">›</span>
+    </button>
+    <div class="qr-body">
+      <div class="qr-body-inner">
+        <div id="qrcode"></div>
+        <button class="qr-share-btn" id="shareFab">📤 Compartilhar</button>
+      </div>
+    </div>
   </div>
 
   <div class="footer">© <span id="year"></span> Agência Nuar</div>
@@ -607,6 +666,11 @@ new QRCode(document.getElementById("qrcodeModal"), {
 });
 
 document.getElementById("urlText").textContent = url;
+
+// QR toggle
+document.getElementById("qrToggle").addEventListener("click", () => {
+  document.getElementById("qrCard").classList.toggle("open");
+});
 
 // Modal
 const overlay = document.getElementById("modalOverlay");
