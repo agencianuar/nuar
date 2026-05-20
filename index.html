@@ -4,55 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agência Nuar</title>
-  <meta name="description" content="Central de links — Agência Nuar" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-    /* ============================================================
-       TEMAS
-    ============================================================ */
-    :root,
+    /* ── TEMAS ── */
     [data-theme="light"] {
-      --bg:          #f5f4f0;
-      --bg2:         #eceae4;
-      --surface:     #ffffff;
-      --surface2:    #f0eee8;
-      --border:      rgba(0,0,0,0.07);
-      --border-h:    rgba(124,58,237,0.30);
-      --text:        #111110;
-      --muted:       #7c7b76;
-      --accent:      #7c3aed;
-      --accent2:     #6d28d9;
-      --accent-soft: rgba(124,58,237,0.08);
-      --shadow:      0 2px 16px rgba(0,0,0,0.07);
-      --shadow-h:    0 8px 32px rgba(124,58,237,0.14);
-      --toggle-bg:   #e2e0da;
+      --bg:        #f6f5f1;
+      --surface:   #ffffff;
+      --surface2:  #f0eeea;
+      --border:    rgba(0,0,0,0.07);
+      --border-h:  rgba(0,0,0,0.16);
+      --text:      #111;
+      --text2:     #444;
+      --muted:     #999;
+      --shadow:    0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
+      --shadow-h:  0 4px 20px rgba(0,0,0,0.12);
+      --toggle:    #eeecea;
     }
-
     [data-theme="dark"] {
-      --bg:          #0d0d14;
-      --bg2:         #11111a;
-      --surface:     #16161f;
-      --surface2:    #1e1e2a;
-      --border:      rgba(255,255,255,0.07);
-      --border-h:    rgba(167,139,250,0.35);
-      --text:        #f1f0f9;
-      --muted:       #8884a0;
-      --accent:      #a78bfa;
-      --accent2:     #818cf8;
-      --accent-soft: rgba(167,139,250,0.10);
-      --shadow:      0 2px 20px rgba(0,0,0,0.4);
-      --shadow-h:    0 8px 32px rgba(167,139,250,0.18);
-      --toggle-bg:   #2a2a3a;
+      --bg:        #111118;
+      --surface:   #1a1a24;
+      --surface2:  #222230;
+      --border:    rgba(255,255,255,0.07);
+      --border-h:  rgba(255,255,255,0.18);
+      --text:      #f0eff8;
+      --text2:     #aaa9c0;
+      --muted:     #666480;
+      --shadow:    0 1px 4px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.25);
+      --shadow-h:  0 6px 28px rgba(0,0,0,0.4);
+      --toggle:    #222230;
     }
 
-    /* ============================================================
-       BASE
-    ============================================================ */
+    /* ── BASE ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', system-ui, sans-serif;
@@ -62,45 +47,25 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 48px 16px 80px;
-      transition: background .3s ease, color .3s ease;
-    }
-
-    /* Gradiente de fundo sutil */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(ellipse 80% 50% at 50% -5%, rgba(124,58,237,.07) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-      transition: opacity .3s ease;
-    }
-
-    [data-theme="dark"] body::before {
-      background: radial-gradient(ellipse 80% 50% at 50% -5%, rgba(124,58,237,.18) 0%, transparent 70%);
+      padding: 52px 16px 72px;
+      transition: background .25s, color .25s;
     }
 
     .page {
-      position: relative;
-      z-index: 1;
       width: 100%;
-      max-width: 460px;
+      max-width: 440px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 0;
     }
 
-    /* ============================================================
-       TOGGLE TEMA
-    ============================================================ */
-    .theme-toggle {
+    /* ── TOGGLE TEMA ── */
+    .theme-btn {
       position: fixed;
-      top: 18px;
-      right: 18px;
-      z-index: 100;
-      width: 44px;
-      height: 44px;
+      top: 16px; right: 16px;
+      z-index: 99;
+      width: 38px; height: 38px;
       border-radius: 50%;
       border: 1px solid var(--border);
       background: var(--surface);
@@ -109,322 +74,264 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      transition: all .2s ease;
-      user-select: none;
+      font-size: 16px;
+      transition: all .2s;
     }
-    .theme-toggle:hover {
-      transform: scale(1.08);
-      border-color: var(--border-h);
-      box-shadow: var(--shadow-h);
-    }
+    .theme-btn:hover { box-shadow: var(--shadow-h); transform: scale(1.06); }
 
-    /* ============================================================
-       HEADER
-    ============================================================ */
+    /* ── HEADER ── */
     .header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 40px;
+      width: 100%;
       text-align: center;
-      animation: fadeUp .5s ease both;
-    }
-
-    .avatar-ring {
-      padding: 3px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 24px rgba(124,58,237,.25);
-    }
-
-    .avatar {
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
-      background: var(--surface2);
-      border: 3px solid var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      font-weight: 900;
-      color: var(--accent);
-      overflow: hidden;
-      transition: background .3s, border-color .3s;
+      margin-bottom: 40px;
+      animation: up .45s ease both;
     }
 
     .org-name {
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 900;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.8px;
       color: var(--text);
       line-height: 1.1;
-      transition: color .3s;
-    }
-
-    .org-handle {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent);
-      background: var(--accent-soft);
-      padding: 3px 12px;
-      border-radius: 999px;
-      letter-spacing: .4px;
-      transition: all .3s;
+      margin-bottom: 8px;
     }
 
     .org-bio {
       font-size: 14px;
       color: var(--muted);
-      line-height: 1.65;
-      max-width: 320px;
-      transition: color .3s;
+      line-height: 1.6;
     }
 
-    /* ============================================================
-       REDES SOCIAIS (pílulas)
-    ============================================================ */
-    .socials {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 36px;
-      flex-wrap: wrap;
-      animation: fadeUp .5s .07s ease both;
-    }
-
-    .social-pill {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 14px;
-      border-radius: 999px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: .2px;
-      box-shadow: var(--shadow);
-      transition: all .2s ease;
-    }
-    .social-pill:hover {
-      border-color: var(--border-h);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-h);
-      color: var(--accent);
-    }
-
-    /* ============================================================
-       SEÇÃO
-    ============================================================ */
+    /* ── SEÇÃO DE BLOCOS ── */
     .section {
       width: 100%;
-      margin-bottom: 24px;
-      animation: fadeUp .5s .12s ease both;
+      margin-bottom: 32px;
+      animation: up .45s .07s ease both;
     }
 
-    .section-title {
+    .section-label {
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: 1.8px;
+      letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 10px;
-      padding-left: 4px;
-      transition: color .3s;
+      margin-bottom: 12px;
+      padding-left: 2px;
     }
 
-    .links-list { display: flex; flex-direction: column; gap: 9px; }
+    .blocks { display: flex; flex-direction: column; gap: 8px; }
 
-    /* ============================================================
-       BOTÃO
-    ============================================================ */
-    .btn {
+    /* ── BLOCO / CARD ── */
+    .block {
       display: flex;
       align-items: center;
-      gap: 13px;
-      width: 100%;
-      min-height: 58px;
-      padding: 10px 16px;
+      gap: 15px;
+      padding: 16px 18px;
       border-radius: 14px;
       background: var(--surface);
       border: 1px solid var(--border);
-      color: var(--text);
-      text-decoration: none;
-      cursor: pointer;
       box-shadow: var(--shadow);
+      text-decoration: none;
+      color: var(--text);
       transition: all .2s ease;
-      position: relative;
-      overflow: hidden;
+      cursor: pointer;
     }
 
-    .btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--accent-soft), transparent);
-      opacity: 0;
-      transition: opacity .2s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
+    .block:hover {
       border-color: var(--border-h);
       box-shadow: var(--shadow-h);
+      transform: translateY(-2px);
     }
-    .btn:hover::after { opacity: 1; }
-    .btn:active { transform: translateY(0); }
+    .block:active { transform: translateY(0); }
 
-    .btn-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
+    .block-icon {
+      width: 44px; height: 44px;
+      border-radius: 11px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 20px;
       flex-shrink: 0;
-      position: relative;
-      z-index: 1;
+      transition: background .25s, border-color .25s;
     }
 
-    .btn-text { flex: 1; position: relative; z-index: 1; }
-    .btn-label { display: block; font-weight: 700; font-size: 13.5px; letter-spacing: -.1px; }
-    .btn-sub   { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; transition: color .3s; }
+    .block-info { flex: 1; }
+    .block-name { font-size: 14px; font-weight: 700; letter-spacing: -.2px; }
+    .block-desc { font-size: 12px; color: var(--text2); margin-top: 2px; transition: color .25s; }
 
-    .btn-arrow {
+    .block-arrow {
       color: var(--muted);
       font-size: 20px;
       flex-shrink: 0;
-      position: relative;
-      z-index: 1;
-      transition: transform .2s ease, color .2s ease;
+      transition: transform .2s, color .2s;
     }
-    .btn:hover .btn-arrow { transform: translateX(3px); color: var(--accent); }
+    .block:hover .block-arrow { transform: translateX(3px); color: var(--text); }
 
-    /* Cores dos ícones */
-    .icon-ig   { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
-    .icon-tt   { background: #010101; }
-    .icon-wa   { background: #25D366; }
-    .icon-yt   { background: #FF0000; }
-    .icon-map  { background: #4285F4; }
-    .icon-form { background: linear-gradient(135deg,#0f9d58,#34a853); }
-    .icon-pix  { background: linear-gradient(135deg,#32bcad,#00bcd4); }
-    .icon-cal  { background: linear-gradient(135deg,#ff7043,#ff5722); }
-    .icon-vol  { background: linear-gradient(135deg,#ec407a,#e91e63); }
-    .icon-doc  { background: linear-gradient(135deg,#1565c0,#1976d2); }
-    .icon-site { background: linear-gradient(135deg,#7c3aed,#6d28d9); }
-
-    /* ============================================================
-       QR CODE
-    ============================================================ */
-    .qr-section {
+    /* ── SHARE / QR ── */
+    .share-section {
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      padding: 28px 20px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
       box-shadow: var(--shadow);
-      margin-bottom: 32px;
-      animation: fadeUp .5s .18s ease both;
-      transition: background .3s, border-color .3s;
+      overflow: hidden;
+      margin-bottom: 28px;
+      animation: up .45s .14s ease both;
+      transition: background .25s, border-color .25s;
     }
 
-    .qr-title {
-      font-size: 11px;
-      font-weight: 700;
+    .share-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      cursor: pointer;
+      user-select: none;
+      gap: 10px;
+    }
+
+    .share-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .share-header-icon {
+      font-size: 16px;
+    }
+
+    .share-header-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .share-chevron {
+      font-size: 14px;
       color: var(--muted);
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
+      transition: transform .25s ease;
+    }
+
+    .share-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease;
+    }
+
+    .share-body.open { max-height: 400px; }
+
+    .share-inner {
+      padding: 0 18px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
     }
 
     #qrcode {
-      padding: 12px;
+      padding: 10px;
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0,0,0,.10);
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
     }
-    #qrcode img, #qrcode canvas { display: block; border-radius: 6px; }
+    #qrcode img, #qrcode canvas { display: block; border-radius: 4px; }
 
-    .qr-url {
+    .share-url-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      transition: background .25s, border-color .25s;
+    }
+
+    .share-url-text {
+      flex: 1;
       font-size: 12px;
       color: var(--muted);
-      word-break: break-all;
-      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
-    /* ============================================================
-       FOOTER
-    ============================================================ */
+    .copy-btn {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 5px 11px;
+      cursor: pointer;
+      transition: all .15s;
+      letter-spacing: .3px;
+    }
+    .copy-btn:hover { border-color: var(--border-h); }
+    .copy-btn.copied { color: #22c55e; border-color: #22c55e; }
+
+    /* ── FOOTER ── */
     .footer {
-      font-size: 11.5px;
+      font-size: 11px;
       color: var(--muted);
-      text-align: center;
-      opacity: .6;
-      transition: color .3s;
+      opacity: .5;
     }
 
-    /* ============================================================
-       ANIMAÇÕES
-    ============================================================ */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
+    /* ── ANIMAÇÃO ── */
+    @keyframes up {
+      from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 420px) {
-      body { padding: 32px 12px 64px; }
-      .org-name { font-size: 22px; }
+      body { padding: 40px 12px 60px; }
+      .org-name { font-size: 23px; }
     }
   </style>
 </head>
 <body>
 
-<!-- Botão de tema -->
-<button class="theme-toggle" id="themeToggle" title="Alternar tema" aria-label="Alternar tema claro/escuro">☀️</button>
+<button class="theme-btn" id="themeBtn" aria-label="Alternar tema">🌙</button>
 
 <div class="page">
 
   <!-- HEADER -->
   <div class="header">
-    <div class="avatar-ring">
-      <div class="avatar" id="avatarEl"></div>
-    </div>
-    <div>
-      <div class="org-name"   id="orgName"></div>
-      <div class="org-handle" id="orgHandle"></div>
-    </div>
+    <div class="org-name" id="orgName"></div>
     <p class="org-bio" id="orgBio"></p>
   </div>
 
-  <!-- REDES SOCIAIS -->
-  <div class="socials" id="socialsContainer"></div>
-
-  <!-- LINKS PRINCIPAIS -->
-  <div class="section" id="mainSection">
-    <div class="section-title">Acesse</div>
-    <div class="links-list" id="mainLinks"></div>
+  <!-- BLOCOS DE ACESSO -->
+  <div class="section">
+    <div class="section-label">Acesse</div>
+    <div class="blocks" id="blocksContainer"></div>
   </div>
 
-  <!-- LINKS EXTRAS -->
-  <div class="section" id="extraSection" style="display:none">
-    <div class="section-title">Mais</div>
-    <div class="links-list" id="extraLinks"></div>
-  </div>
-
-  <!-- QR CODE -->
-  <div class="qr-section">
-    <div class="qr-title">📲 Compartilhe esta página</div>
-    <div id="qrcode"></div>
-    <div class="qr-url" id="qrUrl"></div>
+  <!-- COMPARTILHAR -->
+  <div class="share-section">
+    <div class="share-header" id="shareToggle">
+      <div class="share-header-left">
+        <span class="share-header-icon">📤</span>
+        <span class="share-header-text">Compartilhar esta página</span>
+      </div>
+      <span class="share-chevron" id="shareChevron">▼</span>
+    </div>
+    <div class="share-body" id="shareBody">
+      <div class="share-inner">
+        <div id="qrcode"></div>
+        <div class="share-url-row">
+          <span class="share-url-text" id="urlText"></span>
+          <button class="copy-btn" id="copyBtn">Copiar</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="footer">© <span id="year"></span> Agência Nuar</div>
@@ -432,87 +339,52 @@
 </div>
 
 <!-- ================================================================
-  ✏️  CONFIGURAÇÃO — edite apenas esta seção para atualizar tudo!
+  ✏️  CONFIGURAÇÃO
 ================================================================ -->
 <script>
 
 const CONFIG = {
 
   /* ---- IDENTIDADE ---- */
-  nome:     "Agência Nuar",
-  handle:   "@agencianuar",
-  bio:      "Transformando ideias em impacto real.",
-  iniciais: "N",
-  // avatarURL: "logo.png",
+  nome: "Agência Nuar",
+  bio:  "Hub de acesso às nossas iniciativas.",
 
-  /* URL desta página — usada no QR Code */
+  /* URL desta página — usada no QR Code e no link de compartilhamento */
   paginaURL: "https://agencianuar.github.io/nuar",
 
-  /* ---- REDES SOCIAIS (pílulas) — url: "" para ocultar ---- */
-  redes: [
-    { icone: "📸", label: "Instagram", url: "https://instagram.com/agencianuar" },
-    { icone: "🎵", label: "TikTok",    url: "https://tiktok.com/@agencianuar"  },
-    { icone: "▶️", label: "YouTube",   url: ""                                  },
-  ],
-
-  /* ---- LINKS PRINCIPAIS — url: "" para ocultar ---- */
-  linksPrincipais: [
+  /* ---- BLOCOS DE ACESSO ----
+     Campos: icone, nome, desc (descrição curta), url
+     url: "" para ocultar o bloco
+  ---- */
+  blocos: [
     {
-      icone: "💬", iconeCor: "icon-wa",
-      label: "Fale pelo WhatsApp",
-      sub:   "Atendimento direto",
-      url:   "https://wa.me/5500000000000"
-    },
-    {
-      icone: "📋", iconeCor: "icon-form",
-      label: "Lista de Presença",
-      sub:   "Confirme sua participação",
-      url:   "https://forms.gle/XXXXXXXXX"
-    },
-    {
-      icone: "💜", iconeCor: "icon-pix",
-      label: "Fazer uma Doação",
-      sub:   "Apoie nosso trabalho",
-      url:   "https://apoia.se/"
-    },
-    {
-      icone: "📝", iconeCor: "icon-form",
-      label: "Formulários & Inscrições",
-      sub:   "Cadastros e formulários",
-      url:   "https://forms.gle/XXXXXXXXX"
-    },
-  ],
-
-  /* ---- LINKS EXTRAS — array [] vazio para ocultar a seção ---- */
-  linksExtras: [
-    {
-      icone: "📍", iconeCor: "icon-map",
-      label: "Nossa Localização",
-      sub:   "Veja onde estamos",
-      url:   "https://maps.google.com/"
-    },
-    {
-      icone: "📅", iconeCor: "icon-cal",
-      label: "Agenda de Eventos",
-      sub:   "Próximos encontros",
+      icone: "🏢",
+      nome:  "Agência Nuar",
+      desc:  "Nossa agência principal",
       url:   ""
     },
     {
-      icone: "🤝", iconeCor: "icon-vol",
-      label: "Seja Voluntário(a)",
-      sub:   "Faça parte do time",
+      icone: "🏦",
+      nome:  "Banco Cacimba",
+      desc:  "Serviços e informações",
       url:   ""
     },
     {
-      icone: "📄", iconeCor: "icon-doc",
-      label: "Documentos",
-      sub:   "Materiais e arquivos",
+      icone: "📻",
+      nome:  "Rádio",
+      desc:  "Ouça nossa programação",
       url:   ""
     },
     {
-      icone: "🌐", iconeCor: "icon-site",
-      label: "Site Oficial",
-      sub:   "Saiba mais sobre nós",
+      icone: "🌿",
+      nome:  "Instituto Nua",
+      desc:  "Projetos e iniciativas",
+      url:   ""
+    },
+    {
+      icone: "🎓",
+      nome:  "Unidiversidade da Quebrada",
+      desc:  "Educação e formação",
       url:   ""
     },
   ],
@@ -520,83 +392,77 @@ const CONFIG = {
 };
 
 /* ================================================================
-   ⚠️  NÃO EDITE ABAIXO DESTA LINHA
+   ⚠️  NÃO EDITE ABAIXO
 ================================================================ */
 
 // Tema
-const html = document.documentElement;
-const btn  = document.getElementById("themeToggle");
-const saved = localStorage.getItem("theme") || "light";
+const html   = document.documentElement;
+const themeBtn = document.getElementById("themeBtn");
+const saved  = localStorage.getItem("nuar-theme") || "light";
 html.setAttribute("data-theme", saved);
-btn.textContent = saved === "dark" ? "☀️" : "🌙";
+themeBtn.textContent = saved === "dark" ? "☀️" : "🌙";
 
-btn.addEventListener("click", () => {
+themeBtn.addEventListener("click", () => {
   const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
   html.setAttribute("data-theme", next);
-  btn.textContent = next === "dark" ? "☀️" : "🌙";
-  localStorage.setItem("theme", next);
+  themeBtn.textContent = next === "dark" ? "☀️" : "🌙";
+  localStorage.setItem("nuar-theme", next);
 });
 
 // Identidade
-document.getElementById("orgName").textContent   = CONFIG.nome;
-document.getElementById("orgHandle").textContent = CONFIG.handle;
-document.getElementById("orgBio").textContent    = CONFIG.bio;
+document.getElementById("orgName").textContent = CONFIG.nome;
+document.getElementById("orgBio").textContent  = CONFIG.bio;
 document.title = CONFIG.nome;
 document.getElementById("year").textContent = new Date().getFullYear();
 
-const avatarEl = document.getElementById("avatarEl");
-if (CONFIG.avatarURL) {
-  avatarEl.innerHTML = `<img src="${CONFIG.avatarURL}" style="width:100%;height:100%;object-fit:cover;" alt="${CONFIG.nome}">`;
-} else {
-  avatarEl.textContent = CONFIG.iniciais;
-}
-
-// Redes sociais
-const socialsEl = document.getElementById("socialsContainer");
-CONFIG.redes.filter(r => r.url).forEach(r => {
-  const a = document.createElement("a");
-  a.href = r.url; a.target = "_blank"; a.rel = "noopener noreferrer";
-  a.className = "social-pill";
-  a.innerHTML = `<span>${r.icone}</span>${r.label}`;
-  socialsEl.appendChild(a);
+// Blocos
+const container = document.getElementById("blocksContainer");
+CONFIG.blocos.filter(b => b.nome).forEach(b => {
+  const el = b.url ? document.createElement("a") : document.createElement("div");
+  if (b.url) { el.href = b.url; el.target = "_blank"; el.rel = "noopener noreferrer"; }
+  el.className = "block";
+  el.innerHTML = `
+    <div class="block-icon">${b.icone}</div>
+    <div class="block-info">
+      <div class="block-name">${b.nome}</div>
+      ${b.desc ? `<div class="block-desc">${b.desc}</div>` : ""}
+    </div>
+    <span class="block-arrow">›</span>
+  `;
+  container.appendChild(el);
 });
 
-function criarBtn(link) {
-  if (!link.url) return null;
-  const a = document.createElement("a");
-  a.href = link.url; a.target = "_blank"; a.rel = "noopener noreferrer";
-  a.className = "btn";
-  a.innerHTML = `
-    <div class="btn-icon ${link.iconeCor || ''}">${link.icone}</div>
-    <div class="btn-text">
-      <span class="btn-label">${link.label}</span>
-      ${link.sub ? `<span class="btn-sub">${link.sub}</span>` : ''}
-    </div>
-    <span class="btn-arrow">›</span>
-  `;
-  return a;
-}
-
-// Links principais
-const mainEl = document.getElementById("mainLinks");
-CONFIG.linksPrincipais.forEach(l => { const b = criarBtn(l); if (b) mainEl.appendChild(b); });
-
-// Links extras
-const extraEl = document.getElementById("extraLinks");
-const extras  = CONFIG.linksExtras.filter(l => l.url);
-if (extras.length) {
-  document.getElementById("extraSection").style.display = "block";
-  extras.forEach(l => { const b = criarBtn(l); if (b) extraEl.appendChild(b); });
-}
+// Share toggle
+const shareToggle = document.getElementById("shareToggle");
+const shareBody   = document.getElementById("shareBody");
+const chevron     = document.getElementById("shareChevron");
+shareToggle.addEventListener("click", () => {
+  const isOpen = shareBody.classList.toggle("open");
+  chevron.style.transform = isOpen ? "rotate(180deg)" : "";
+});
 
 // QR Code
-const qrUrl = CONFIG.paginaURL || window.location.href;
-document.getElementById("qrUrl").textContent = qrUrl;
+const url = CONFIG.paginaURL || window.location.href;
+document.getElementById("urlText").textContent = url;
 new QRCode(document.getElementById("qrcode"), {
-  text: qrUrl, width: 150, height: 150,
-  colorDark: "#111110", colorLight: "#ffffff",
+  text: url, width: 140, height: 140,
+  colorDark: "#111", colorLight: "#fff",
   correctLevel: QRCode.CorrectLevel.H
 });
+
+// Copiar link
+const copyBtn = document.getElementById("copyBtn");
+copyBtn.addEventListener("click", () => {
+  navigator.clipboard.writeText(url).then(() => {
+    copyBtn.textContent = "Copiado!";
+    copyBtn.classList.add("copied");
+    setTimeout(() => {
+      copyBtn.textContent = "Copiar";
+      copyBtn.classList.remove("copied");
+    }, 2000);
+  });
+});
+
 </script>
 </body>
 </html>
