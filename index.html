@@ -133,35 +133,23 @@
         transform .2s;
     }
 
-    /* Overlay cinza que aparece no hover e revela a cor */
+    /* Overlay colorido no hover */
     .block::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(120,120,120,0.0);
-      backdrop-filter: blur(0px);
-      transition: background .25s, backdrop-filter .25s;
-      z-index: 0;
-      border-radius: 14px;
-    }
-
-    /* Tint colorido por cima */
-    .block::after {
       content: '';
       position: absolute;
       inset: 0;
       background: var(--inst-color, transparent);
       opacity: 0;
-      transition: opacity .3s ease;
-      border-radius: 14px;
+      backdrop-filter: blur(0px);
+      transition: opacity .25s ease, backdrop-filter .25s ease;
       z-index: 0;
+      border-radius: 14px;
     }
 
     .block:hover::before {
-      background: rgba(140,140,140,0.08);
+      opacity: .09;
       backdrop-filter: blur(2px);
     }
-    .block:hover::after { opacity: .07; }
 
     .block:hover {
       transform: translateY(-2px);
@@ -180,6 +168,13 @@
       flex-shrink: 0;
       position: relative; z-index: 1;
       transition: background .3s, border-color .3s, box-shadow .3s;
+      overflow: hidden;
+    }
+    .block-logo {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      border-radius: 4px;
     }
     .block:hover .block-icon {
       background: var(--inst-color, var(--surface2));
@@ -375,29 +370,21 @@
       transition: transform .2s, box-shadow .2s;
     }
 
-    /* Blur cinza → cor da instituição */
+    /* Overlay colorido no hover */
     .share-opt-icon::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(130,130,130,0);
-      backdrop-filter: blur(0px);
-      transition: background .2s, backdrop-filter .2s;
-    }
-    .share-opt-icon::after {
       content: '';
       position: absolute;
       inset: 0;
       background: var(--opt-color);
       opacity: 0;
-      transition: opacity .25s ease;
+      backdrop-filter: blur(0px);
+      transition: opacity .25s ease, backdrop-filter .25s ease;
     }
 
     .share-opt:hover .share-opt-icon::before {
-      background: rgba(130,130,130,0.15);
-      backdrop-filter: blur(3px);
+      opacity: 1;
+      backdrop-filter: blur(2px);
     }
-    .share-opt:hover .share-opt-icon::after { opacity: 1; }
     .share-opt:hover .share-opt-icon {
       transform: scale(1.08);
       box-shadow: 0 4px 16px color-mix(in srgb, var(--opt-color) 40%, transparent);
@@ -504,6 +491,7 @@ const CONFIG = {
   blocos: [
     {
       icone: "🏢",
+      logo:  "",            // ex: "logos/agencia-nuar.png"
       nome:  "Agência Nuar",
       desc:  "Nossa agência principal",
       cor:   "#8c00f0",
@@ -511,6 +499,7 @@ const CONFIG = {
     },
     {
       icone: "🏦",
+      logo:  "",            // ex: "logos/banco-cacimba.png"
       nome:  "Banco Cacimba",
       desc:  "Serviços e informações",
       cor:   "#c9a074",
@@ -518,6 +507,7 @@ const CONFIG = {
     },
     {
       icone: "📻",
+      logo:  "",            // ex: "logos/radio-tv-nuar.png"
       nome:  "Rádio TV Nuar",
       desc:  "Ouça e assista nossa programação",
       cor:   "#00a900",
@@ -525,6 +515,7 @@ const CONFIG = {
     },
     {
       icone: "🌿",
+      logo:  "",            // ex: "logos/instituto-nua.png"
       nome:  "Instituto NUA",
       desc:  "Projetos e iniciativas",
       cor:   "#ff004f",
@@ -532,6 +523,7 @@ const CONFIG = {
     },
     {
       icone: "🎓",
+      logo:  "",            // ex: "logos/unidiversidade.png"
       nome:  "Unidiversidade da Quebrada",
       desc:  "Educação e formação",
       cor:   "#ff7300",
@@ -581,7 +573,11 @@ CONFIG.blocos.forEach(b => {
   el.className = "block";
   el.style.setProperty("--inst-color", b.cor);
   el.innerHTML = `
-    <div class="block-icon">${b.icone}</div>
+    <div class="block-icon">
+      ${b.logo
+        ? `<img src="${b.logo}" alt="${b.nome}" class="block-logo">`
+        : b.icone}
+    </div>
     <div class="block-info">
       <div class="block-name">${b.nome}</div>
       ${b.desc ? `<div class="block-desc">${b.desc}</div>` : ""}
