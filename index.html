@@ -10,30 +10,26 @@
 
     /* ── TEMAS ── */
     [data-theme="light"] {
-      --bg:        #f6f5f1;
-      --surface:   #ffffff;
-      --surface2:  #f0eeea;
-      --border:    rgba(0,0,0,0.07);
-      --border-h:  rgba(0,0,0,0.16);
-      --text:      #111;
-      --text2:     #444;
-      --muted:     #999;
-      --shadow:    0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
-      --shadow-h:  0 4px 20px rgba(0,0,0,0.12);
-      --toggle:    #eeecea;
+      --bg:       #f5f4f0;
+      --surface:  #ffffff;
+      --surface2: #eeece8;
+      --border:   rgba(0,0,0,0.08);
+      --text:     #111;
+      --text2:    #555;
+      --muted:    #aaa;
+      --shadow:   0 1px 3px rgba(0,0,0,.05), 0 4px 14px rgba(0,0,0,.06);
+      --shadow-h: 0 6px 24px rgba(0,0,0,.12);
     }
     [data-theme="dark"] {
-      --bg:        #111118;
-      --surface:   #1a1a24;
-      --surface2:  #222230;
-      --border:    rgba(255,255,255,0.07);
-      --border-h:  rgba(255,255,255,0.18);
-      --text:      #f0eff8;
-      --text2:     #aaa9c0;
-      --muted:     #666480;
-      --shadow:    0 1px 4px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.25);
-      --shadow-h:  0 6px 28px rgba(0,0,0,0.4);
-      --toggle:    #222230;
+      --bg:       #0e0e16;
+      --surface:  #181824;
+      --surface2: #20202e;
+      --border:   rgba(255,255,255,0.07);
+      --text:     #f0eff8;
+      --text2:    #9997b0;
+      --muted:    #5f5d78;
+      --shadow:   0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+      --shadow-h: 0 6px 28px rgba(0,0,0,.4);
     }
 
     /* ── BASE ── */
@@ -47,8 +43,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 52px 16px 72px;
-      transition: background .25s, color .25s;
+      padding: 52px 16px 80px;
+      transition: background .3s, color .3s;
     }
 
     .page {
@@ -57,10 +53,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0;
     }
 
-    /* ── TOGGLE TEMA ── */
+    /* ── BOTÃO TEMA ── */
     .theme-btn {
       position: fixed;
       top: 16px; right: 16px;
@@ -71,45 +66,34 @@
       background: var(--surface);
       box-shadow: var(--shadow);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 16px;
       transition: all .2s;
     }
-    .theme-btn:hover { box-shadow: var(--shadow-h); transform: scale(1.06); }
+    .theme-btn:hover { box-shadow: var(--shadow-h); transform: scale(1.07); }
 
     /* ── HEADER ── */
     .header {
       width: 100%;
       text-align: center;
       margin-bottom: 40px;
-      animation: up .45s ease both;
+      animation: up .4s ease both;
     }
-
     .org-name {
       font-size: 26px;
       font-weight: 900;
-      letter-spacing: -0.8px;
-      color: var(--text);
-      line-height: 1.1;
+      letter-spacing: -.8px;
       margin-bottom: 8px;
     }
-
     .org-bio {
       font-size: 14px;
       color: var(--muted);
       line-height: 1.6;
     }
 
-    /* ── SEÇÃO DE BLOCOS ── */
-    .section {
-      width: 100%;
-      margin-bottom: 32px;
-      animation: up .45s .07s ease both;
-    }
-
+    /* ── LABEL DE SEÇÃO ── */
     .section-label {
+      width: 100%;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 2px;
@@ -119,28 +103,70 @@
       padding-left: 2px;
     }
 
-    .blocks { display: flex; flex-direction: column; gap: 8px; }
+    /* ── BLOCOS ── */
+    .blocks {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 36px;
+      animation: up .4s .07s ease both;
+    }
 
-    /* ── BLOCO / CARD ── */
     .block {
       display: flex;
       align-items: center;
-      gap: 15px;
-      padding: 16px 18px;
+      gap: 14px;
+      padding: 15px 18px;
       border-radius: 14px;
       background: var(--surface);
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
       text-decoration: none;
       color: var(--text);
-      transition: all .2s ease;
+      position: relative;
+      overflow: hidden;
       cursor: pointer;
+      transition:
+        border-color .25s,
+        box-shadow .25s,
+        transform .2s;
     }
 
+    /* Overlay cinza que aparece no hover e revela a cor */
+    .block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(120,120,120,0.0);
+      backdrop-filter: blur(0px);
+      transition: background .25s, backdrop-filter .25s;
+      z-index: 0;
+      border-radius: 14px;
+    }
+
+    /* Tint colorido por cima */
+    .block::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--inst-color, transparent);
+      opacity: 0;
+      transition: opacity .3s ease;
+      border-radius: 14px;
+      z-index: 0;
+    }
+
+    .block:hover::before {
+      background: rgba(140,140,140,0.08);
+      backdrop-filter: blur(2px);
+    }
+    .block:hover::after { opacity: .07; }
+
     .block:hover {
-      border-color: var(--border-h);
-      box-shadow: var(--shadow-h);
       transform: translateY(-2px);
+      border-color: var(--inst-color, var(--border));
+      box-shadow: var(--shadow-h), 0 0 0 1px var(--inst-color, transparent);
     }
     .block:active { transform: translateY(0); }
 
@@ -149,87 +175,57 @@
       border-radius: 11px;
       background: var(--surface2);
       border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 20px;
       flex-shrink: 0;
-      transition: background .25s, border-color .25s;
+      position: relative; z-index: 1;
+      transition: background .3s, border-color .3s, box-shadow .3s;
+    }
+    .block:hover .block-icon {
+      background: var(--inst-color, var(--surface2));
+      border-color: transparent;
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--inst-color, transparent) 40%, transparent);
     }
 
-    .block-info { flex: 1; }
+    .block-info {
+      flex: 1;
+      position: relative; z-index: 1;
+    }
     .block-name { font-size: 14px; font-weight: 700; letter-spacing: -.2px; }
-    .block-desc { font-size: 12px; color: var(--text2); margin-top: 2px; transition: color .25s; }
+    .block-desc { font-size: 12px; color: var(--text2); margin-top: 2px; transition: color .3s; }
 
     .block-arrow {
       color: var(--muted);
       font-size: 20px;
       flex-shrink: 0;
+      position: relative; z-index: 1;
       transition: transform .2s, color .2s;
     }
-    .block:hover .block-arrow { transform: translateX(3px); color: var(--text); }
+    .block:hover .block-arrow { transform: translateX(3px); color: var(--inst-color, var(--text)); }
 
-    /* ── SHARE / QR ── */
-    .share-section {
+    /* ── QR CODE (fixo, sempre visível) ── */
+    .qr-card {
       width: 100%;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
       box-shadow: var(--shadow);
-      overflow: hidden;
-      margin-bottom: 28px;
-      animation: up .45s .14s ease both;
-      transition: background .25s, border-color .25s;
-    }
-
-    .share-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 18px;
-      cursor: pointer;
-      user-select: none;
-      gap: 10px;
-    }
-
-    .share-header-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .share-header-icon {
-      font-size: 16px;
-    }
-
-    .share-header-text {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .share-chevron {
-      font-size: 14px;
-      color: var(--muted);
-      transition: transform .25s ease;
-    }
-
-    .share-body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height .35s ease;
-    }
-
-    .share-body.open { max-height: 400px; }
-
-    .share-inner {
-      padding: 0 18px 20px;
+      padding: 22px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
-      border-top: 1px solid var(--border);
-      padding-top: 18px;
+      gap: 14px;
+      margin-bottom: 28px;
+      animation: up .4s .14s ease both;
+      transition: background .3s, border-color .3s;
+    }
+
+    .qr-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
     #qrcode {
@@ -240,7 +236,83 @@
     }
     #qrcode img, #qrcode canvas { display: block; border-radius: 4px; }
 
-    .share-url-row {
+    /* ── BOTÃO COMPARTILHAR (fixo, canto inferior direito) ── */
+    .share-fab {
+      position: fixed;
+      bottom: 24px; right: 20px;
+      z-index: 99;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-h);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .share-fab:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(0,0,0,.18); }
+
+    /* ── MODAL DE COMPARTILHAMENTO ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 460px;
+      background: var(--surface);
+      border-radius: 20px 20px 0 0;
+      padding: 24px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      transform: translateY(100%);
+      transition: transform .3s ease;
+      box-shadow: 0 -4px 40px rgba(0,0,0,.2);
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+
+    .modal-handle {
+      width: 40px; height: 4px;
+      border-radius: 999px;
+      background: var(--border);
+      margin-bottom: 4px;
+    }
+
+    .modal-title {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -.3px;
+      align-self: flex-start;
+    }
+
+    /* QR code no modal */
+    .modal-qr {
+      padding: 10px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.1);
+    }
+    .modal-qr img, .modal-qr canvas { display: block; border-radius: 4px; }
+
+    /* URL row */
+    .url-row {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -249,10 +321,8 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 10px 14px;
-      transition: background .25s, border-color .25s;
     }
-
-    .share-url-text {
+    .url-text {
       flex: 1;
       font-size: 12px;
       color: var(--muted);
@@ -260,7 +330,6 @@
       white-space: nowrap;
       text-overflow: ellipsis;
     }
-
     .copy-btn {
       flex-shrink: 0;
       font-size: 11px;
@@ -269,20 +338,99 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 7px;
-      padding: 5px 11px;
+      padding: 5px 12px;
       cursor: pointer;
       transition: all .15s;
-      letter-spacing: .3px;
     }
-    .copy-btn:hover { border-color: var(--border-h); }
-    .copy-btn.copied { color: #22c55e; border-color: #22c55e; }
+    .copy-btn:hover { border-color: var(--text); }
+    .copy-btn.copiado { color: #22c55e; border-color: #22c55e; }
+
+    /* Opções de compartilhamento */
+    .share-options {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .share-opt {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      flex: 1;
+      max-width: 72px;
+    }
+
+    .share-opt-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      border: 1px solid transparent;
+      background: var(--surface2);
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    /* Blur cinza → cor da instituição */
+    .share-opt-icon::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(130,130,130,0);
+      backdrop-filter: blur(0px);
+      transition: background .2s, backdrop-filter .2s;
+    }
+    .share-opt-icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--opt-color);
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    .share-opt:hover .share-opt-icon::before {
+      background: rgba(130,130,130,0.15);
+      backdrop-filter: blur(3px);
+    }
+    .share-opt:hover .share-opt-icon::after { opacity: 1; }
+    .share-opt:hover .share-opt-icon {
+      transform: scale(1.08);
+      box-shadow: 0 4px 16px color-mix(in srgb, var(--opt-color) 40%, transparent);
+    }
+
+    .share-opt-emoji { position: relative; z-index: 1; }
+
+    .share-opt-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: .2px;
+    }
+
+    /* Download btn */
+    .download-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      transition: all .2s;
+      letter-spacing: -.1px;
+    }
+    .download-btn:hover { border-color: var(--text); box-shadow: var(--shadow-h); }
 
     /* ── FOOTER ── */
-    .footer {
-      font-size: 11px;
-      color: var(--muted);
-      opacity: .5;
-    }
+    .footer { font-size: 11px; color: var(--muted); opacity: .5; }
 
     /* ── ANIMAÇÃO ── */
     @keyframes up {
@@ -291,14 +439,33 @@
     }
 
     @media (max-width: 420px) {
-      body { padding: 40px 12px 60px; }
+      body { padding: 40px 12px 72px; }
       .org-name { font-size: 23px; }
     }
   </style>
 </head>
 <body>
 
-<button class="theme-btn" id="themeBtn" aria-label="Alternar tema">🌙</button>
+<!-- Botão tema -->
+<button class="theme-btn" id="themeBtn" aria-label="Tema">🌙</button>
+
+<!-- Botão compartilhar (fixo) -->
+<button class="share-fab" id="shareFab" aria-label="Compartilhar">📤</button>
+
+<!-- Modal de compartilhamento -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Compartilhar</div>
+    <div class="modal-qr" id="qrcodeModal"></div>
+    <div class="url-row">
+      <span class="url-text" id="urlText"></span>
+      <button class="copy-btn" id="copyBtn">Copiar</button>
+    </div>
+    <div class="share-options" id="shareOptions"></div>
+    <button class="download-btn" id="downloadBtn">⬇️ Baixar QR Code</button>
+  </div>
+</div>
 
 <div class="page">
 
@@ -308,34 +475,17 @@
     <p class="org-bio" id="orgBio"></p>
   </div>
 
-  <!-- BLOCOS DE ACESSO -->
-  <div class="section">
-    <div class="section-label">Acesse</div>
-    <div class="blocks" id="blocksContainer"></div>
-  </div>
+  <!-- BLOCOS -->
+  <div class="section-label">Acesse</div>
+  <div class="blocks" id="blocksContainer"></div>
 
-  <!-- COMPARTILHAR -->
-  <div class="share-section">
-    <div class="share-header" id="shareToggle">
-      <div class="share-header-left">
-        <span class="share-header-icon">📤</span>
-        <span class="share-header-text">Compartilhar esta página</span>
-      </div>
-      <span class="share-chevron" id="shareChevron">▼</span>
-    </div>
-    <div class="share-body" id="shareBody">
-      <div class="share-inner">
-        <div id="qrcode"></div>
-        <div class="share-url-row">
-          <span class="share-url-text" id="urlText"></span>
-          <button class="copy-btn" id="copyBtn">Copiar</button>
-        </div>
-      </div>
-    </div>
+  <!-- QR CODE FIXO -->
+  <div class="qr-card">
+    <div class="qr-label">Código desta página</div>
+    <div id="qrcode"></div>
   </div>
 
   <div class="footer">© <span id="year"></span> Agência Nuar</div>
-
 </div>
 
 <!-- ================================================================
@@ -345,48 +495,57 @@
 
 const CONFIG = {
 
-  /* ---- IDENTIDADE ---- */
   nome: "Agência Nuar",
-  bio:  "Hub de acesso às nossas iniciativas.",
+  bio:  "Nossas iniciativas em um só lugar.",
 
-  /* URL desta página — usada no QR Code e no link de compartilhamento */
   paginaURL: "https://agencianuar.github.io/nuar",
 
-  /* ---- BLOCOS DE ACESSO ----
-     Campos: icone, nome, desc (descrição curta), url
-     url: "" para ocultar o bloco
-  ---- */
+  /* ---- BLOCOS ---- */
   blocos: [
     {
       icone: "🏢",
       nome:  "Agência Nuar",
       desc:  "Nossa agência principal",
+      cor:   "#8c00f0",
       url:   ""
     },
     {
       icone: "🏦",
       nome:  "Banco Cacimba",
       desc:  "Serviços e informações",
+      cor:   "#c9a074",
       url:   ""
     },
     {
       icone: "📻",
-      nome:  "Rádio",
-      desc:  "Ouça nossa programação",
+      nome:  "Rádio TV Nuar",
+      desc:  "Ouça e assista nossa programação",
+      cor:   "#00a900",
       url:   ""
     },
     {
       icone: "🌿",
-      nome:  "Instituto Nua",
+      nome:  "Instituto NUA",
       desc:  "Projetos e iniciativas",
+      cor:   "#ff004f",
       url:   ""
     },
     {
       icone: "🎓",
       nome:  "Unidiversidade da Quebrada",
       desc:  "Educação e formação",
+      cor:   "#ff7300",
       url:   ""
     },
+  ],
+
+  /* ---- OPÇÕES DE COMPARTILHAMENTO ---- */
+  compartilhar: [
+    { icone: "💬", label: "WhatsApp",  cor: "#8c00f0", acao: "whatsapp" },
+    { icone: "✈️",  label: "Telegram",  cor: "#c9a074", acao: "telegram" },
+    { icone: "📸", label: "Instagram", cor: "#00a900", acao: "instagram"},
+    { icone: "🔗", label: "Copiar",    cor: "#ff004f", acao: "copiar"   },
+    { icone: "📱", label: "Mais",      cor: "#ff7300", acao: "nativo"   },
   ],
 
 };
@@ -396,12 +555,11 @@ const CONFIG = {
 ================================================================ */
 
 // Tema
-const html   = document.documentElement;
+const html = document.documentElement;
 const themeBtn = document.getElementById("themeBtn");
-const saved  = localStorage.getItem("nuar-theme") || "light";
-html.setAttribute("data-theme", saved);
-themeBtn.textContent = saved === "dark" ? "☀️" : "🌙";
-
+const tSaved = localStorage.getItem("nuar-theme") || "light";
+html.setAttribute("data-theme", tSaved);
+themeBtn.textContent = tSaved === "dark" ? "☀️" : "🌙";
 themeBtn.addEventListener("click", () => {
   const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
   html.setAttribute("data-theme", next);
@@ -417,10 +575,11 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 // Blocos
 const container = document.getElementById("blocksContainer");
-CONFIG.blocos.filter(b => b.nome).forEach(b => {
+CONFIG.blocos.forEach(b => {
   const el = b.url ? document.createElement("a") : document.createElement("div");
   if (b.url) { el.href = b.url; el.target = "_blank"; el.rel = "noopener noreferrer"; }
   el.className = "block";
+  el.style.setProperty("--inst-color", b.cor);
   el.innerHTML = `
     <div class="block-icon">${b.icone}</div>
     <div class="block-info">
@@ -432,35 +591,68 @@ CONFIG.blocos.filter(b => b.nome).forEach(b => {
   container.appendChild(el);
 });
 
-// Share toggle
-const shareToggle = document.getElementById("shareToggle");
-const shareBody   = document.getElementById("shareBody");
-const chevron     = document.getElementById("shareChevron");
-shareToggle.addEventListener("click", () => {
-  const isOpen = shareBody.classList.toggle("open");
-  chevron.style.transform = isOpen ? "rotate(180deg)" : "";
-});
-
-// QR Code
+// QR Code (página principal)
 const url = CONFIG.paginaURL || window.location.href;
-document.getElementById("urlText").textContent = url;
 new QRCode(document.getElementById("qrcode"), {
   text: url, width: 140, height: 140,
   colorDark: "#111", colorLight: "#fff",
   correctLevel: QRCode.CorrectLevel.H
 });
 
-// Copiar link
-const copyBtn = document.getElementById("copyBtn");
-copyBtn.addEventListener("click", () => {
-  navigator.clipboard.writeText(url).then(() => {
-    copyBtn.textContent = "Copiado!";
-    copyBtn.classList.add("copied");
-    setTimeout(() => {
-      copyBtn.textContent = "Copiar";
-      copyBtn.classList.remove("copied");
-    }, 2000);
+// QR Code (modal)
+new QRCode(document.getElementById("qrcodeModal"), {
+  text: url, width: 160, height: 160,
+  colorDark: "#111", colorLight: "#fff",
+  correctLevel: QRCode.CorrectLevel.H
+});
+
+document.getElementById("urlText").textContent = url;
+
+// Modal
+const overlay = document.getElementById("modalOverlay");
+document.getElementById("shareFab").addEventListener("click", () => overlay.classList.add("open"));
+overlay.addEventListener("click", e => { if (e.target === overlay) overlay.classList.remove("open"); });
+
+// Opções de compartilhamento
+const optsEl = document.getElementById("shareOptions");
+CONFIG.compartilhar.forEach(o => {
+  const div = document.createElement("div");
+  div.className = "share-opt";
+  div.innerHTML = `
+    <div class="share-opt-icon" style="--opt-color:${o.cor}">
+      <span class="share-opt-emoji">${o.icone}</span>
+    </div>
+    <span class="share-opt-label">${o.label}</span>
+  `;
+  div.addEventListener("click", () => {
+    const encodedUrl = encodeURIComponent(url);
+    const msg = encodeURIComponent("Acesse: " + url);
+    if      (o.acao === "whatsapp")  window.open("https://wa.me/?text=" + msg, "_blank");
+    else if (o.acao === "telegram")  window.open("https://t.me/share/url?url=" + encodedUrl, "_blank");
+    else if (o.acao === "instagram") navigator.clipboard.writeText(url).then(() => alert("Link copiado! Cole nos seus stories."));
+    else if (o.acao === "copiar")    { navigator.clipboard.writeText(url); div.querySelector(".share-opt-label").textContent = "Copiado!"; setTimeout(() => div.querySelector(".share-opt-label").textContent = "Copiar", 2000); }
+    else if (o.acao === "nativo")    navigator.share ? navigator.share({ title: CONFIG.nome, url }) : navigator.clipboard.writeText(url);
   });
+  optsEl.appendChild(div);
+});
+
+// Copiar link
+document.getElementById("copyBtn").addEventListener("click", function() {
+  navigator.clipboard.writeText(url).then(() => {
+    this.textContent = "Copiado!";
+    this.classList.add("copiado");
+    setTimeout(() => { this.textContent = "Copiar"; this.classList.remove("copiado"); }, 2000);
+  });
+});
+
+// Baixar QR Code
+document.getElementById("downloadBtn").addEventListener("click", () => {
+  const canvas = document.querySelector("#qrcodeModal canvas");
+  if (!canvas) return;
+  const link = document.createElement("a");
+  link.download = "qrcode-agencianuar.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
 });
 
 </script>
