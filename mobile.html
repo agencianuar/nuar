@@ -108,18 +108,17 @@
       padding: 16px 16px;
       border-radius: 18px;
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--inst-color, var(--border));
       box-shadow: var(--shadow);
       text-decoration: none;
       color: var(--text);
       cursor: pointer;
       touch-action: manipulation;
-      transition: transform .15s ease, border-color .15s, box-shadow .15s;
+      transition: transform .15s ease, box-shadow .15s;
       will-change: transform;
     }
     .block:active {
       transform: scale(0.97);
-      border-color: var(--inst-color, var(--border));
       box-shadow: var(--shadow-h), 0 0 0 1px var(--inst-color, transparent);
     }
 
