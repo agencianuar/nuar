@@ -132,6 +132,7 @@
         box-shadow .3s,
         transform .35s cubic-bezier(.34,1.56,.64,1);
       touch-action: manipulation;
+      will-change: transform;
     }
 
     .block::before { display: none; }
@@ -145,14 +146,20 @@
     }
     .block:active { transform: scale(0.97); }
 
-    /* Em touch (mobile): bloco já começa no tamanho completo */
+    /* Em touch (mobile): sem animações pesadas, logo em tamanho cheio */
     @media (hover: none) {
-      .block { transform: scale(1); }
+      .block {
+        transform: scale(1);
+        transition: transform .15s ease, border-color .15s, box-shadow .15s;
+        will-change: transform;
+      }
       .block:active {
         transform: scale(0.97);
         border-color: var(--inst-color, var(--border));
         box-shadow: var(--shadow-h), 0 0 0 1px var(--inst-color, transparent);
       }
+      .block-logo { transform: scale(1); }
+      .block-logo.logo-grande { transform: scale(1.1); }
     }
 
     .block-icon {
@@ -501,14 +508,28 @@
 
     /* ── MOBILE ── */
     @media (max-width: 480px) {
-      body { padding: 44px 14px 52px; }
+      body { padding: 36px 14px 40px; }
       .org-bio { font-size: 18px; }
-      .block { padding: 13px 15px; gap: 13px; }
-      .block-icon { width: 50px; height: 50px; }
-      .block-logo { width: 34px; height: 34px; }
+
+      /* Blocos maiores e logos bem visíveis */
+      .block { padding: 16px 16px; gap: 16px; }
+      .block-icon { width: 68px; height: 68px; border-radius: 16px; }
+      .block-logo { width: 52px; height: 52px; }
+      .block-name { font-size: 15px; }
+      .block-desc { font-size: 13px; }
+
+      /* Remove glow externo pesado no mobile */
+      .block:active {
+        box-shadow: var(--shadow-h), 0 0 0 1px var(--inst-color, transparent);
+      }
+
+      /* Modal */
       .share-options { gap: 8px; }
       .share-opt-icon { width: 48px; height: 48px; font-size: 20px; }
       .modal { padding: 20px 16px 44px; }
+
+      /* Desativa backdrop-filter pesado no modal no mobile */
+      .modal-overlay { backdrop-filter: none; background: rgba(0,0,0,.6); }
     }
   </style>
 </head>
