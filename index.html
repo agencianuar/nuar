@@ -133,22 +133,20 @@
         transform .2s;
     }
 
-    /* Overlay colorido no hover */
+    /* Overlay colorido no hover — usa a cor da instituição */
     .block::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: var(--inst-color, transparent);
+      background: radial-gradient(ellipse at center, var(--inst-color, transparent) 0%, transparent 80%);
       opacity: 0;
-      backdrop-filter: blur(0px);
-      transition: opacity .25s ease, backdrop-filter .25s ease;
+      transition: opacity .3s ease;
       z-index: 0;
       border-radius: 14px;
     }
 
     .block:hover::before {
-      opacity: .09;
-      backdrop-filter: blur(2px);
+      opacity: .18;
     }
 
     .block:hover {
@@ -370,20 +368,18 @@
       transition: transform .2s, box-shadow .2s;
     }
 
-    /* Overlay colorido no hover */
+    /* Overlay colorido no hover — usa a cor da opção */
     .share-opt-icon::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: var(--opt-color);
+      background: radial-gradient(ellipse at center, var(--opt-color) 0%, transparent 80%);
       opacity: 0;
-      backdrop-filter: blur(0px);
-      transition: opacity .25s ease, backdrop-filter .25s ease;
+      transition: opacity .25s ease;
     }
 
     .share-opt:hover .share-opt-icon::before {
       opacity: 1;
-      backdrop-filter: blur(2px);
     }
     .share-opt:hover .share-opt-icon {
       transform: scale(1.08);
@@ -490,44 +486,39 @@ const CONFIG = {
   /* ---- BLOCOS ---- */
   blocos: [
     {
-      icone: "🏢",
-      logo:  "",            // ex: "logos/agencia-nuar.png"
-      nome:  "Agência Nuar",
-      desc:  "Nossa agência principal",
-      cor:   "#8c00f0",
-      url:   ""
+      logo: "logos/1.svg",
+      nome: "Agência Nuar",
+      desc: "Nossa agência principal",
+      cor:  "#8c00f0",
+      url:  ""
     },
     {
-      icone: "🏦",
-      logo:  "",            // ex: "logos/banco-cacimba.png"
-      nome:  "Banco Cacimba",
-      desc:  "Serviços e informações",
-      cor:   "#c9a074",
-      url:   ""
+      logo: "logos/2.svg",
+      nome: "Banco Cacimba",
+      desc: "Serviços e informações",
+      cor:  "#c9a074",
+      url:  ""
     },
     {
-      icone: "📻",
-      logo:  "",            // ex: "logos/radio-tv-nuar.png"
-      nome:  "Rádio TV Nuar",
-      desc:  "Ouça e assista nossa programação",
-      cor:   "#00a900",
-      url:   ""
+      logo: "logos/3.svg",
+      nome: "Rádio TV Nuar",
+      desc: "Ouça e assista nossa programação",
+      cor:  "#00a900",
+      url:  ""
     },
     {
-      icone: "🌿",
-      logo:  "",            // ex: "logos/instituto-nua.png"
-      nome:  "Instituto NUA",
-      desc:  "Projetos e iniciativas",
-      cor:   "#ff004f",
-      url:   ""
+      logo: "logos/4.svg",
+      nome: "Instituto NUA",
+      desc: "Projetos e iniciativas",
+      cor:  "#ff004f",
+      url:  ""
     },
     {
-      icone: "🎓",
-      logo:  "",            // ex: "logos/unidiversidade.png"
-      nome:  "Unidiversidade da Quebrada",
-      desc:  "Educação e formação",
-      cor:   "#ff7300",
-      url:   ""
+      logo: "logos/5.svg",
+      nome: "Unidiversidade da Quebrada",
+      desc: "Educação e formação",
+      cor:  "#ff7300",
+      url:  ""
     },
   ],
 
