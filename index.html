@@ -242,6 +242,9 @@
 
     .qr-toggle-icon {
       font-size: 15px;
+      width: 24px;
+      text-align: center;
+      flex-shrink: 0;
     }
 
     .qr-toggle-label {
@@ -264,6 +267,8 @@
       font-size: 18px;
       color: var(--muted);
       transition: transform .3s ease, color .2s;
+      width: 24px;
+      text-align: center;
     }
     .qr-card.open .qr-arrow { transform: rotate(90deg); }
     .qr-toggle:hover { background: var(--surface2); }
@@ -537,6 +542,7 @@
   <!-- QR CODE COLAPSÁVEL -->
   <div class="qr-card" id="qrCard">
     <button class="qr-toggle" id="qrToggle">
+      <span class="qr-toggle-icon">📲</span>
       <div>
         <div class="qr-toggle-label">Código QR</div>
         <div class="qr-toggle-sub">Toque para ver e compartilhar</div>
