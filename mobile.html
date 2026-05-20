@@ -126,16 +126,11 @@
     .block-icon {
       width: 68px; height: 68px;
       border-radius: 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--inst-color, var(--surface2));
+      border: none;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       overflow: hidden;
-      transition: background .2s, border-color .2s;
-    }
-    .block:active .block-icon {
-      background: var(--inst-color, var(--surface));
-      border-color: transparent;
     }
 
     .block-logo {
