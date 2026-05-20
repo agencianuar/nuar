@@ -1,11 +1,602 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Em breve</title>
+  <title>Agência Nuar</title>
+  <meta name="description" content="Central de links — Agência Nuar" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    /* ============================================================
+       TEMAS
+    ============================================================ */
+    :root,
+    [data-theme="light"] {
+      --bg:          #f5f4f0;
+      --bg2:         #eceae4;
+      --surface:     #ffffff;
+      --surface2:    #f0eee8;
+      --border:      rgba(0,0,0,0.07);
+      --border-h:    rgba(124,58,237,0.30);
+      --text:        #111110;
+      --muted:       #7c7b76;
+      --accent:      #7c3aed;
+      --accent2:     #6d28d9;
+      --accent-soft: rgba(124,58,237,0.08);
+      --shadow:      0 2px 16px rgba(0,0,0,0.07);
+      --shadow-h:    0 8px 32px rgba(124,58,237,0.14);
+      --toggle-bg:   #e2e0da;
+    }
+
+    [data-theme="dark"] {
+      --bg:          #0d0d14;
+      --bg2:         #11111a;
+      --surface:     #16161f;
+      --surface2:    #1e1e2a;
+      --border:      rgba(255,255,255,0.07);
+      --border-h:    rgba(167,139,250,0.35);
+      --text:        #f1f0f9;
+      --muted:       #8884a0;
+      --accent:      #a78bfa;
+      --accent2:     #818cf8;
+      --accent-soft: rgba(167,139,250,0.10);
+      --shadow:      0 2px 20px rgba(0,0,0,0.4);
+      --shadow-h:    0 8px 32px rgba(167,139,250,0.18);
+      --toggle-bg:   #2a2a3a;
+    }
+
+    /* ============================================================
+       BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 16px 80px;
+      transition: background .3s ease, color .3s ease;
+    }
+
+    /* Gradiente de fundo sutil */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% -5%, rgba(124,58,237,.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity .3s ease;
+    }
+
+    [data-theme="dark"] body::before {
+      background: radial-gradient(ellipse 80% 50% at 50% -5%, rgba(124,58,237,.18) 0%, transparent 70%);
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ============================================================
+       TOGGLE TEMA
+    ============================================================ */
+    .theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 100;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all .2s ease;
+      user-select: none;
+    }
+    .theme-toggle:hover {
+      transform: scale(1.08);
+      border-color: var(--border-h);
+      box-shadow: var(--shadow-h);
+    }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      text-align: center;
+      animation: fadeUp .5s ease both;
+    }
+
+    .avatar-ring {
+      padding: 3px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 24px rgba(124,58,237,.25);
+    }
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 3px solid var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--accent);
+      overflow: hidden;
+      transition: background .3s, border-color .3s;
+    }
+
+    .org-name {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      line-height: 1.1;
+      transition: color .3s;
+    }
+
+    .org-handle {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 3px 12px;
+      border-radius: 999px;
+      letter-spacing: .4px;
+      transition: all .3s;
+    }
+
+    .org-bio {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 320px;
+      transition: color .3s;
+    }
+
+    /* ============================================================
+       REDES SOCIAIS (pílulas)
+    ============================================================ */
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+      animation: fadeUp .5s .07s ease both;
+    }
+
+    .social-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .2px;
+      box-shadow: var(--shadow);
+      transition: all .2s ease;
+    }
+    .social-pill:hover {
+      border-color: var(--border-h);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-h);
+      color: var(--accent);
+    }
+
+    /* ============================================================
+       SEÇÃO
+    ============================================================ */
+    .section {
+      width: 100%;
+      margin-bottom: 24px;
+      animation: fadeUp .5s .12s ease both;
+    }
+
+    .section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      padding-left: 4px;
+      transition: color .3s;
+    }
+
+    .links-list { display: flex; flex-direction: column; gap: 9px; }
+
+    /* ============================================================
+       BOTÃO
+    ============================================================ */
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      width: 100%;
+      min-height: 58px;
+      padding: 10px 16px;
+      border-radius: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all .2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-soft), transparent);
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-h);
+      box-shadow: var(--shadow-h);
+    }
+    .btn:hover::after { opacity: 1; }
+    .btn:active { transform: translateY(0); }
+
+    .btn-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-text { flex: 1; position: relative; z-index: 1; }
+    .btn-label { display: block; font-weight: 700; font-size: 13.5px; letter-spacing: -.1px; }
+    .btn-sub   { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; transition: color .3s; }
+
+    .btn-arrow {
+      color: var(--muted);
+      font-size: 20px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+      transition: transform .2s ease, color .2s ease;
+    }
+    .btn:hover .btn-arrow { transform: translateX(3px); color: var(--accent); }
+
+    /* Cores dos ícones */
+    .icon-ig   { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+    .icon-tt   { background: #010101; }
+    .icon-wa   { background: #25D366; }
+    .icon-yt   { background: #FF0000; }
+    .icon-map  { background: #4285F4; }
+    .icon-form { background: linear-gradient(135deg,#0f9d58,#34a853); }
+    .icon-pix  { background: linear-gradient(135deg,#32bcad,#00bcd4); }
+    .icon-cal  { background: linear-gradient(135deg,#ff7043,#ff5722); }
+    .icon-vol  { background: linear-gradient(135deg,#ec407a,#e91e63); }
+    .icon-doc  { background: linear-gradient(135deg,#1565c0,#1976d2); }
+    .icon-site { background: linear-gradient(135deg,#7c3aed,#6d28d9); }
+
+    /* ============================================================
+       QR CODE
+    ============================================================ */
+    .qr-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 28px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 32px;
+      animation: fadeUp .5s .18s ease both;
+      transition: background .3s, border-color .3s;
+    }
+
+    .qr-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    #qrcode {
+      padding: 12px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.10);
+    }
+    #qrcode img, #qrcode canvas { display: block; border-radius: 6px; }
+
+    .qr-url {
+      font-size: 12px;
+      color: var(--muted);
+      word-break: break-all;
+      text-align: center;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer {
+      font-size: 11.5px;
+      color: var(--muted);
+      text-align: center;
+      opacity: .6;
+      transition: color .3s;
+    }
+
+    /* ============================================================
+       ANIMAÇÕES
+    ============================================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 420px) {
+      body { padding: 32px 12px 64px; }
+      .org-name { font-size: 22px; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hirochi do Paraguai</h1>
+
+<!-- Botão de tema -->
+<button class="theme-toggle" id="themeToggle" title="Alternar tema" aria-label="Alternar tema claro/escuro">☀️</button>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="avatar-ring">
+      <div class="avatar" id="avatarEl"></div>
+    </div>
+    <div>
+      <div class="org-name"   id="orgName"></div>
+      <div class="org-handle" id="orgHandle"></div>
+    </div>
+    <p class="org-bio" id="orgBio"></p>
+  </div>
+
+  <!-- REDES SOCIAIS -->
+  <div class="socials" id="socialsContainer"></div>
+
+  <!-- LINKS PRINCIPAIS -->
+  <div class="section" id="mainSection">
+    <div class="section-title">Acesse</div>
+    <div class="links-list" id="mainLinks"></div>
+  </div>
+
+  <!-- LINKS EXTRAS -->
+  <div class="section" id="extraSection" style="display:none">
+    <div class="section-title">Mais</div>
+    <div class="links-list" id="extraLinks"></div>
+  </div>
+
+  <!-- QR CODE -->
+  <div class="qr-section">
+    <div class="qr-title">📲 Compartilhe esta página</div>
+    <div id="qrcode"></div>
+    <div class="qr-url" id="qrUrl"></div>
+  </div>
+
+  <div class="footer">© <span id="year"></span> Agência Nuar</div>
+
+</div>
+
+<!-- ================================================================
+  ✏️  CONFIGURAÇÃO — edite apenas esta seção para atualizar tudo!
+================================================================ -->
+<script>
+
+const CONFIG = {
+
+  /* ---- IDENTIDADE ---- */
+  nome:     "Agência Nuar",
+  handle:   "@agencianuar",
+  bio:      "Transformando ideias em impacto real.",
+  iniciais: "N",
+  // avatarURL: "logo.png",
+
+  /* URL desta página — usada no QR Code */
+  paginaURL: "https://agencianuar.github.io/nuar",
+
+  /* ---- REDES SOCIAIS (pílulas) — url: "" para ocultar ---- */
+  redes: [
+    { icone: "📸", label: "Instagram", url: "https://instagram.com/agencianuar" },
+    { icone: "🎵", label: "TikTok",    url: "https://tiktok.com/@agencianuar"  },
+    { icone: "▶️", label: "YouTube",   url: ""                                  },
+  ],
+
+  /* ---- LINKS PRINCIPAIS — url: "" para ocultar ---- */
+  linksPrincipais: [
+    {
+      icone: "💬", iconeCor: "icon-wa",
+      label: "Fale pelo WhatsApp",
+      sub:   "Atendimento direto",
+      url:   "https://wa.me/5500000000000"
+    },
+    {
+      icone: "📋", iconeCor: "icon-form",
+      label: "Lista de Presença",
+      sub:   "Confirme sua participação",
+      url:   "https://forms.gle/XXXXXXXXX"
+    },
+    {
+      icone: "💜", iconeCor: "icon-pix",
+      label: "Fazer uma Doação",
+      sub:   "Apoie nosso trabalho",
+      url:   "https://apoia.se/"
+    },
+    {
+      icone: "📝", iconeCor: "icon-form",
+      label: "Formulários & Inscrições",
+      sub:   "Cadastros e formulários",
+      url:   "https://forms.gle/XXXXXXXXX"
+    },
+  ],
+
+  /* ---- LINKS EXTRAS — array [] vazio para ocultar a seção ---- */
+  linksExtras: [
+    {
+      icone: "📍", iconeCor: "icon-map",
+      label: "Nossa Localização",
+      sub:   "Veja onde estamos",
+      url:   "https://maps.google.com/"
+    },
+    {
+      icone: "📅", iconeCor: "icon-cal",
+      label: "Agenda de Eventos",
+      sub:   "Próximos encontros",
+      url:   ""
+    },
+    {
+      icone: "🤝", iconeCor: "icon-vol",
+      label: "Seja Voluntário(a)",
+      sub:   "Faça parte do time",
+      url:   ""
+    },
+    {
+      icone: "📄", iconeCor: "icon-doc",
+      label: "Documentos",
+      sub:   "Materiais e arquivos",
+      url:   ""
+    },
+    {
+      icone: "🌐", iconeCor: "icon-site",
+      label: "Site Oficial",
+      sub:   "Saiba mais sobre nós",
+      url:   ""
+    },
+  ],
+
+};
+
+/* ================================================================
+   ⚠️  NÃO EDITE ABAIXO DESTA LINHA
+================================================================ */
+
+// Tema
+const html = document.documentElement;
+const btn  = document.getElementById("themeToggle");
+const saved = localStorage.getItem("theme") || "light";
+html.setAttribute("data-theme", saved);
+btn.textContent = saved === "dark" ? "☀️" : "🌙";
+
+btn.addEventListener("click", () => {
+  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  btn.textContent = next === "dark" ? "☀️" : "🌙";
+  localStorage.setItem("theme", next);
+});
+
+// Identidade
+document.getElementById("orgName").textContent   = CONFIG.nome;
+document.getElementById("orgHandle").textContent = CONFIG.handle;
+document.getElementById("orgBio").textContent    = CONFIG.bio;
+document.title = CONFIG.nome;
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const avatarEl = document.getElementById("avatarEl");
+if (CONFIG.avatarURL) {
+  avatarEl.innerHTML = `<img src="${CONFIG.avatarURL}" style="width:100%;height:100%;object-fit:cover;" alt="${CONFIG.nome}">`;
+} else {
+  avatarEl.textContent = CONFIG.iniciais;
+}
+
+// Redes sociais
+const socialsEl = document.getElementById("socialsContainer");
+CONFIG.redes.filter(r => r.url).forEach(r => {
+  const a = document.createElement("a");
+  a.href = r.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+  a.className = "social-pill";
+  a.innerHTML = `<span>${r.icone}</span>${r.label}`;
+  socialsEl.appendChild(a);
+});
+
+function criarBtn(link) {
+  if (!link.url) return null;
+  const a = document.createElement("a");
+  a.href = link.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+  a.className = "btn";
+  a.innerHTML = `
+    <div class="btn-icon ${link.iconeCor || ''}">${link.icone}</div>
+    <div class="btn-text">
+      <span class="btn-label">${link.label}</span>
+      ${link.sub ? `<span class="btn-sub">${link.sub}</span>` : ''}
+    </div>
+    <span class="btn-arrow">›</span>
+  `;
+  return a;
+}
+
+// Links principais
+const mainEl = document.getElementById("mainLinks");
+CONFIG.linksPrincipais.forEach(l => { const b = criarBtn(l); if (b) mainEl.appendChild(b); });
+
+// Links extras
+const extraEl = document.getElementById("extraLinks");
+const extras  = CONFIG.linksExtras.filter(l => l.url);
+if (extras.length) {
+  document.getElementById("extraSection").style.display = "block";
+  extras.forEach(l => { const b = criarBtn(l); if (b) extraEl.appendChild(b); });
+}
+
+// QR Code
+const qrUrl = CONFIG.paginaURL || window.location.href;
+document.getElementById("qrUrl").textContent = qrUrl;
+new QRCode(document.getElementById("qrcode"), {
+  text: qrUrl, width: 150, height: 150,
+  colorDark: "#111110", colorLight: "#ffffff",
+  correctLevel: QRCode.CorrectLevel.H
+});
+</script>
 </body>
 </html>
