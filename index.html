@@ -127,7 +127,7 @@
       position: relative;
       overflow: hidden;
       cursor: pointer;
-      transform: scale(0.91);
+      transform: scale(0.84);
       transition:
         border-color .3s,
         box-shadow .3s,
@@ -162,6 +162,11 @@
       width: 38px;
       height: 38px;
       object-fit: contain;
+      transform: scale(0.8);
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+    }
+    .block:hover .block-logo {
+      transform: scale(1.15);
     }
     .block:hover .block-icon {
       background: var(--inst-color, var(--surface2));
