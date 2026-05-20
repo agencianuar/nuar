@@ -127,17 +127,18 @@
       position: relative;
       overflow: hidden;
       cursor: pointer;
+      transform: scale(0.91);
       transition:
-        border-color .25s,
-        box-shadow .25s,
-        transform .2s;
+        border-color .3s,
+        box-shadow .3s,
+        transform .35s cubic-bezier(.34,1.56,.64,1);
     }
 
     /* Sem pseudo-elemento de overlay */
     .block::before { display: none; }
 
     .block:hover {
-      transform: translateY(-2px);
+      transform: scale(1);
       border-color: var(--inst-color, var(--border));
       box-shadow: var(--shadow-h),
                   0 0 0 1px var(--inst-color, transparent),
@@ -161,11 +162,6 @@
       width: 38px;
       height: 38px;
       object-fit: contain;
-      transform: scale(0.72);
-      transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-    }
-    .block:hover .block-logo {
-      transform: scale(1);
     }
     .block:hover .block-icon {
       background: var(--inst-color, var(--surface2));
