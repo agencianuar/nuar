@@ -41,7 +41,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 72px 14px 40px;
+      padding: 16px 14px 40px;
       transition: background .3s, color .3s;
       -webkit-tap-highlight-color: transparent;
     }
@@ -54,21 +54,8 @@
       align-items: center;
     }
 
-    .top-bar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 58px;
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 14px;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      transition: background .3s, border-color .3s;
-    }
-
     .theme-btn {
+      align-self: flex-end;
       width: 42px; height: 42px;
       border-radius: 50%;
       border: 1px solid var(--border);
@@ -78,6 +65,7 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 17px;
       touch-action: manipulation;
+      margin-bottom: 12px;
       flex-shrink: 0;
     }
     .theme-btn:active { transform: scale(0.93); }
@@ -275,10 +263,6 @@
 </head>
 <body>
 
-<div class="top-bar">
-  <button class="theme-btn" id="themeBtn" aria-label="Tema">🌙</button>
-</div>
-
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -294,6 +278,7 @@
 </div>
 
 <div class="page">
+  <button class="theme-btn" id="themeBtn" aria-label="Tema">🌙</button>
   <div class="header">
     <p class="org-bio" id="orgBio"></p>
   </div>
