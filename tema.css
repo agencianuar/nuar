@@ -82,13 +82,18 @@ body {
   transition: border-color .25s, box-shadow .25s, background .15s, color .3s;
 }
 
-/* Desktop: borda colorida só no hover */
+/* Desktop: sem borda por padrão, borda + brilho só no hover */
 @media (hover: hover) {
+  .contact-item,
+  .link-item {
+    border-color: transparent !important;
+  }
   .contact-item:hover,
   .link-item:hover {
     border-color: var(--cor) !important;
-    box-shadow: 0 4px 18px rgba(0,0,0,.08), 0 0 0 0px var(--cor);
-    background: rgba(0,0,0,.01) !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,.10),
+                0 0 0 0.5px var(--cor),
+                0 0 22px 4px rgba(var(--cor-rgb), .22) !important;
   }
 }
 
