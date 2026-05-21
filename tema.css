@@ -54,16 +54,50 @@ body {
   transition: background .3s, border-color .3s;
 }
 
-/* Itens de contato e link */
+/* Cards de instituição — cada item vira bloco independente */
+.card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 !important;
+}
+
+.card-label {
+  color: var(--muted);
+  padding: 2px 4px 4px !important;
+  transition: color .3s;
+}
+
 .contact-item,
 .link-item {
+  border-radius: 16px !important;
+  border-top: none !important;
+  background: var(--surface) !important;
+  border: 1.5px solid transparent !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
   color: var(--text);
-  border-top-color: var(--border) !important;
-  transition: background .15s, color .3s;
+  transition: border-color .25s, box-shadow .25s, background .15s, color .3s;
 }
-.contact-item:hover,
-.link-item:hover {
-  background: var(--surface2);
+
+/* Desktop: borda colorida só no hover */
+@media (hover: hover) {
+  .contact-item:hover,
+  .link-item:hover {
+    border-color: var(--cor) !important;
+    box-shadow: 0 4px 18px rgba(0,0,0,.08), 0 0 0 0px var(--cor);
+    background: rgba(0,0,0,.01) !important;
+  }
+}
+
+/* Mobile/touch: borda colorida sempre visível */
+@media (hover: none) {
+  .contact-item,
+  .link-item {
+    border-color: var(--cor) !important;
+  }
 }
 
 .contact-phone,
@@ -73,8 +107,6 @@ body {
   color: var(--muted);
   transition: color .3s;
 }
-
-.card-label { color: var(--muted); transition: color .3s; }
 
 .em-breve {
   background: var(--surface2);
