@@ -133,14 +133,15 @@
     .block-icon {
       width: 70px; height: 70px;
       border-radius: 17px;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--inst-color, var(--surface));
+      border: none;
       display: flex; align-items: center; justify-content: center;
       font-size: 22px;
       flex-shrink: 0;
       position: relative; z-index: 1;
       transition: background .3s, border-color .3s, box-shadow .3s;
       overflow: hidden;
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--inst-color, transparent) 35%, transparent);
     }
     .block-logo {
       width: 54px; height: 54px;
@@ -154,9 +155,7 @@
     .block:hover .block-logo { transform: scale(1.15); }
     .block:hover .block-logo.logo-grande { transform: scale(1.2); }
     .block:hover .block-icon {
-      background: var(--inst-color, var(--surface));
-      border-color: transparent;
-      box-shadow: 0 4px 12px color-mix(in srgb, var(--inst-color, transparent) 40%, transparent);
+      box-shadow: 0 6px 18px color-mix(in srgb, var(--inst-color, transparent) 50%, transparent);
     }
 
     .block-info { flex: 1; position: relative; z-index: 1; }
@@ -392,7 +391,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
 const container = document.getElementById("blocksContainer");
 CONFIG.blocos.forEach(b => {
   const el = b.url ? document.createElement("a") : document.createElement("div");
-  if (b.url) { el.href = b.url; el.target = "_blank"; el.rel = "noopener noreferrer"; }
+  if (b.url) { el.href = b.url; }
   el.className = "block";
   el.style.setProperty("--inst-color", b.cor);
   el.innerHTML = `

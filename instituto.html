@@ -17,16 +17,30 @@
 
     body {
       font-family: 'Inter', system-ui, sans-serif;
-      background: #f9f8f6;
-      color: #111;
+      background: var(--bg, #f9f8f6);
+      color: var(--text, #111);
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 32px 16px 60px;
+      transition: background .3s, color .3s;
     }
 
     .page { width: 100%; max-width: 440px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+
+    .header { background: var(--surface, #fff); border-color: var(--cor-mid); }
+    .card { background: var(--surface, #fff); border-color: var(--border, rgba(0,0,0,.07)); }
+    .inst-name { color: var(--text, #111); }
+    .inst-desc { color: var(--text2, #777); }
+    .contact-item { color: var(--text, #111); }
+    .contact-item:hover { background: color-mix(in srgb, var(--cor) 8%, var(--surface2, #f9f8f6)); }
+    .link-item { color: var(--text, #111); }
+    .link-item:hover { background: color-mix(in srgb, var(--cor) 8%, var(--surface2, #f9f8f6)); }
+    .link-name { color: var(--text, #111); }
+    .link-sub { color: var(--muted, #aaa); }
+    .contact-phone { color: var(--text2, #888); }
+    .footer { color: var(--muted, #bbb); }
 
     /* Voltar */
     .back-btn {

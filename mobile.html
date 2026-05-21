@@ -345,7 +345,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
 const container = document.getElementById("blocksContainer");
 CONFIG.blocos.forEach(b => {
   const el = b.url ? document.createElement("a") : document.createElement("div");
-  if (b.url) { el.href = b.url; el.rel = "noopener noreferrer"; }
+  if (b.url) { el.href = b.url; }
   el.className = "block";
   el.style.setProperty("--inst-color", b.cor);
   el.innerHTML = `
