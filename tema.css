@@ -32,7 +32,7 @@ body {
 .theme-btn {
   position: fixed;
   top: 14px; right: 14px;
-  z-index: 99;
+  z-index: 999;
   width: 40px; height: 40px;
   border-radius: 50%;
   border: 1px solid var(--border);
@@ -43,6 +43,9 @@ body {
   font-size: 16px;
   touch-action: manipulation;
   transition: background .3s, border-color .3s, box-shadow .2s;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
 }
 .theme-btn:hover { box-shadow: 0 4px 16px rgba(0,0,0,.15); }
 .theme-btn:active { transform: scale(0.93); }

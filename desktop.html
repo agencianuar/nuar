@@ -56,7 +56,10 @@
     .theme-btn {
       position: fixed;
       top: 16px; right: 16px;
-      z-index: 99;
+      z-index: 999;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      will-change: transform;
       width: 42px; height: 42px;
       border-radius: 50%;
       border: 1px solid var(--border);
