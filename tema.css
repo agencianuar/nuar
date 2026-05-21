@@ -122,5 +122,6 @@ body {
 /* Header do card */
 .header {
   background: var(--surface);
+  border-color: var(--cor) !important;
   transition: background .3s, border-color .3s;
 }
